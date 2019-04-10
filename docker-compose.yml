@@ -14,14 +14,10 @@ services:
     image: "haproxy"
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - type: bind
         source: ${PWD}/config/config.cfg
         target: /usr/local/etc/haproxy/haproxy.cfg
-      - type: bind
-        source: ${PWD}/config/certs
-        target: /etc/haproxy/certs
     networks:
       - persistence
 
@@ -44,11 +40,15 @@ services:
     networks:
       - persistence
       - app-tier
+    deploy:
+      replicas: 2
 
   journal-frontend:
     image: "nikolanna/bgjournal-ui"
     networks:
       - persistence
+    deploy:
+      replicas: 2
 
 networks:
   persistence: {}
