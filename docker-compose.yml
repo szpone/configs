@@ -14,10 +14,8 @@ services:
     image: "haproxy"
     ports:
       - "80:80"
-    volumes:
-      - type: bind
-        source: ${PWD}/config/config.cfg
-        target: /usr/local/etc/haproxy/haproxy.cfg
+    configs:
+      - haproxy_config    
     networks:
       - persistence
 
@@ -50,10 +48,13 @@ services:
     deploy:
       replicas: 2
 
+configs:
+  haproxy_config:
+    file: ./config/config.cfg
+
+
 networks:
   persistence: {}
-  app-tier:
-    driver: bridge
-
+  app-tier: {}
 
 
